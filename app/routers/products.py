@@ -1,3 +1,4 @@
+import operator
 from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Query, status
@@ -27,7 +28,7 @@ def read_products(
         ]
 
     if sort is not None:
-        products = sorted(products, key=lambda p: getattr(p, sort), reverse=(order == "desc"))
+        products = sorted(products, key=operator.attrgetter(sort), reverse=(order == "desc"))
 
     total = len(products)
     start = (page - 1) * page_size
